@@ -9,16 +9,16 @@ namespace Cake.Storyteller
         [CakeMethodAlias]
         public static void StorytellerOpen(this ICakeContext context, string projectPath, StorytellerSettings settings = null)
         {
-            var runner = new StorytellerRunner(context.ProcessRunner, context.Log);
-            runner.Open(projectPath, settings);
+            var runner = new StorytellerRunner(context);
+            runner.OpenCommand(projectPath, settings);
         }
 
         [CakeMethodAlias]
         public static void StorytellerRun(this ICakeContext context, string projectPath,
             StorytellerSettings settings = null)
         {
-            var runner = new StorytellerRunner(context.ProcessRunner, context.Log);
-            runner.Run(projectPath, settings);
+            var runner = new StorytellerRunner(context);
+            runner.RunCommand(projectPath, settings);
         }
     }
 }

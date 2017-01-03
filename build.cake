@@ -1,17 +1,42 @@
-#r "Cake.Storyteller/bin/Debug/Cake.Storyteller.dll"
+#r "src/Cake.Storyteller/bin/Debug/Cake.Storyteller.dll"
+#tool "nuget:?package=storyteller"
 
 var target = Argument("Target", "Default");
 
-Task("Default")
-    .Description("Test")
-    .Does(() => {
-        Information("Running default task");
-        StorytellerOpen("Test", new StorytellerSettings {
-            Path = "packages/Storyteller.3.0.1/tools",
-            Timeout = 300
-        });
+var solutionPath = "src/Cake.Storyteller.sln";
 
-        Information("Done");
+Task("Default")
+    .IsDependentOn("Build");
+
+Task("Build")
+    .Does(() => {
+        NuGetRestore(solutionPath);
+        DotNetBuild(solutionPath);
+    });
+
+Task("Clean")
+    .Does(() => {
+        CleanDirectories("./src/build");
+        CleanDirectories("./src/**/bin");
+        CleanDirectories("./src/**/obj");
+        CreateDirectory("./src/build");
+    });
+
+Task("StOpen")
+    .Does(() => {
+        StorytellerOpen("C:/Projects/application-manager/src/ApplicationManager.StoryTeller", new StorytellerSettings{
+            Timeout = 300,
+            Profile = "Phantom"
+        });
+    });
+
+Task("StRun")
+    .Does(() => {
+        StorytellerRun("C:/Projects/application-manager/src/ApplicationManager.StoryTeller", new StorytellerSettings{
+            Timeout = 300,
+            Profile = "Phantom",
+            Retries = 1
+        });
     });
 
 RunTarget(target);

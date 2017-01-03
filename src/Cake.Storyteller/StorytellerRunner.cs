@@ -1,53 +1,71 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using Cake.Core;
 using Cake.Core.Diagnostics;
 using Cake.Core.IO;
+using Cake.Core.Tooling;
 
 namespace Cake.Storyteller
 {
-    public class StorytellerRunner
+    public class StorytellerRunner : Tool<StorytellerSettings>
     {
         private readonly IProcessRunner _runner;
         private readonly ICakeLog _log;
+        private readonly IToolLocator _tool;
+        private readonly ICakeArguments _arguments;
 
-        public StorytellerRunner(IProcessRunner runner, ICakeLog log)
+        public StorytellerRunner(ICakeContext context) : base(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools)
         {
-            _runner = runner;
-            _log = log;
+            _runner = context.ProcessRunner;
+            _log = context.Log;
+            _tool = context.Tools;
+            _arguments = context.Arguments;
         }
 
-        public void Run(string projectPath, StorytellerSettings settings)
+        public int RunCommand(string projectPath, StorytellerSettings settings)
         {
-            StCommand("run", projectPath, settings);
+            var exitCode = StCommand(StorytellerCommand.Run, projectPath, settings);
+            if (exitCode != 0)
+            {
+                throw new CakeException("Storyteller tests failed.");
+            }
+            else
+            {
+                return exitCode;
+            }
         }
 
-        public void Open(string projectPath, StorytellerSettings settings)
+        public void OpenCommand(string projectPath, StorytellerSettings settings)
         {
-            StCommand("open", projectPath, settings);
+            StCommand(StorytellerCommand.Open, projectPath, settings);
         }
-        private void StCommand(string command, string projectPath, StorytellerSettings settings)
+        private int StCommand(StorytellerCommand storytellerCommand, string projectPath, StorytellerSettings settings)
         {
-            var path = string.IsNullOrEmpty(settings.Path) ? settings.Path : "packages/Storyteller.3.0.1/tools/";
-            var toolPath = path + "ST.exe";
-            _log.Verbose("Found ST at: " + toolPath);
+            var toolPath = _tool.Resolve("ST.exe");
 
-            var str = new StringBuilder();
-
-            str.Append(settings.Build != null ? " --build " + settings.Build : "");
-            str.Append(settings.Profile != null ? " --profile " + settings.Profile: "" );
-            str.Append(settings.Timeout != 0 ? " --timeout " + settings.Timeout : "");
-            str.Append(settings.Lifecycle != null ? " --Lifecycle " + settings.Lifecycle : "" );
-            str.Append(settings.TeamCity ? " --teamcity " : "");
-            str.Append(settings.Config != null ? " --config " + settings.Config : "");
-            str.Append(" --retries " + settings.Retries);
-
-            _runner.Start(toolPath, new ProcessSettings
+            var argumentBuilder = new StorytellerArgumentBuilder();
+            var str = argumentBuilder.BuildArguments(_arguments);
+            var process = _runner.Start(toolPath, new ProcessSettings
             {
                 Arguments = string.Join(" ",
-                    command,
+                    storytellerCommand,
                     projectPath,
                     str
                 )
             });
+
+            process.WaitForExit();
+            return process.GetExitCode();
+        }
+
+        protected override string GetToolName()
+        {
+            return "Storyteller";
+        }
+
+        protected override IEnumerable<string> GetToolExecutableNames()
+        {
+            return new[] {"ST.exe"};
         }
     }
 }
