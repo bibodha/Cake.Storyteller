@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Cake.Core;
 using NSubstitute;
+using Shouldly;
 using Xunit;
 
 namespace Cake.Storyteller.Tests
@@ -14,7 +15,6 @@ namespace Cake.Storyteller.Tests
         public StorytellerRunnerTests()
         {
             _context = Substitute.For<ICakeContext>();
-            _path = Path.GetFullPath("src/packages/Storyteller.3.0.1/tools/ST.exe");
             _runner = new StorytellerRunner(_context);
         }
 
@@ -26,6 +26,7 @@ namespace Cake.Storyteller.Tests
                 Timeout = 700,
                 Profile = "Phatom"
             });
+            exitCode.ShouldBe(0);
         }
 
         [Fact]

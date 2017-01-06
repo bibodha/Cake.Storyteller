@@ -42,17 +42,8 @@ namespace Cake.Storyteller
         private int StCommand(StorytellerCommand storytellerCommand, string projectPath, StorytellerSettings settings)
         {
             var toolPath = _tool.Resolve("ST.exe");
-
             var argumentBuilder = new StorytellerArgumentBuilder();
-            var str = argumentBuilder.BuildArguments(_arguments);
-            var process = _runner.Start(toolPath, new ProcessSettings
-            {
-                Arguments = string.Join(" ",
-                    storytellerCommand,
-                    projectPath,
-                    str
-                )
-            });
+            var process = RunProcess(settings, argumentBuilder.BuildArguments(_arguments, settings));
 
             process.WaitForExit();
             return process.GetExitCode();

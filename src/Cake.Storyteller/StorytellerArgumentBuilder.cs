@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.Collections.Generic;
 using Cake.Core;
+using Cake.Core.IO;
 
 namespace Cake.Storyteller
 {
@@ -31,7 +28,7 @@ namespace Cake.Storyteller
             };
         }
 
-        public string BuildArguments(ICakeArguments arguments, StorytellerSettings settings = null)
+        public ProcessArgumentBuilder BuildArguments(ICakeArguments arguments, StorytellerSettings settings = null)
         {
             var dict = new Dictionary<string, string>();
 
@@ -69,15 +66,15 @@ namespace Cake.Storyteller
                 });
             }
 
-            var stringBuilder = new StringBuilder();
+            var builder = new ProcessArgumentBuilder();
             foreach (var pair in dict)
             {
-                stringBuilder.Append("--" + pair.Key + " " + pair.Value + " ");
+                builder.Append("--" + pair.Key + " " + pair.Value + " ");
             }
-            return stringBuilder.ToString().Trim();
+            return builder;
         }
 
-        public string BuildArguments(StorytellerSettings settings)
+        public ProcessArgumentBuilder BuildArguments(StorytellerSettings settings)
         {
             return BuildArguments(null, settings);
         }
