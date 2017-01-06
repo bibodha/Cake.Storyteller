@@ -9,16 +9,10 @@ namespace Cake.Storyteller
 {
     public class StorytellerRunner : Tool<StorytellerSettings>
     {
-        private readonly IProcessRunner _runner;
-        private readonly ICakeLog _log;
-        private readonly IToolLocator _tool;
         private readonly ICakeArguments _arguments;
 
         public StorytellerRunner(ICakeContext context) : base(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools)
         {
-            _runner = context.ProcessRunner;
-            _log = context.Log;
-            _tool = context.Tools;
             _arguments = context.Arguments;
         }
 
