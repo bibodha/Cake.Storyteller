@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using Cake.Core;
-using Cake.Core.Diagnostics;
-using Cake.Core.IO;
 using Cake.Core.Tooling;
 
 namespace Cake.Storyteller

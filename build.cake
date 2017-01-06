@@ -24,7 +24,7 @@ Task("Clean")
 
 Task("StOpen")
     .Does(() => {
-        StorytellerOpen("src/ApplicationManager.StoryTeller.Integration", new StorytellerSettings{
+        StorytellerOpen("src/Cake.StoryTeller.Integration", new StorytellerSettings{
             Timeout = 300,
             Profile = "Phantom"
         });
@@ -32,7 +32,7 @@ Task("StOpen")
 
 Task("StRun")
     .Does(() => {
-        StorytellerRun("src/ApplicationManager.StoryTeller.Integration", new StorytellerSettings{
+        StorytellerRun("src/Cake.StoryTeller.Integration", new StorytellerSettings{
             Timeout = 300,
             Profile = "Phantom",
             Retries = 1

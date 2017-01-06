@@ -22,7 +22,5 @@ namespace Cake.Storyteller.Tests
         {
             
         }
-
-
     }
 }

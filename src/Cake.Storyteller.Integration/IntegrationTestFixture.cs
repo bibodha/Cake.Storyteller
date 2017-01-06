@@ -9,6 +9,5 @@ namespace Cake.Storyteller.Integration
         {
             return value1 + value2;
         }
-
     }
 }
