@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="StorytellerArgumentBuilder.cs" />
+    <Compile Include="StorytellerException.cs" />
     <Compile Include="StorytellerFlag.cs" />
     <Compile Include="StorytellerCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
