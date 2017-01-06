@@ -1,0 +1,5 @@
+<Spec id="ef66f9d0-32d1-44b9-8e8c-c014c3ba5e00" maxRetries="0" tags="" lifecycle="Regression" name="Add" lastUpdated="Friday, January 6, 2017" expirationPeriod="0">
+  <IntegrationTest id="c85b236f-e335-41fb-9296-4a91ffa12c44">
+    <Add value1="1" value2="1" value="2" />
+  </IntegrationTest>
+</Spec>

@@ -29,10 +29,7 @@ namespace Cake.Storyteller
             {
                 throw new CakeException("Storyteller tests failed.");
             }
-            else
-            {
-                return exitCode;
-            }
+            return exitCode;
         }
 
         public void OpenCommand(string projectPath, StorytellerSettings settings)
@@ -41,9 +38,8 @@ namespace Cake.Storyteller
         }
         private int StCommand(StorytellerCommand storytellerCommand, string projectPath, StorytellerSettings settings)
         {
-            var toolPath = _tool.Resolve("ST.exe");
             var argumentBuilder = new StorytellerArgumentBuilder();
-            var process = RunProcess(settings, argumentBuilder.BuildArguments(_arguments, settings));
+            var process = RunProcess(settings, argumentBuilder.BuildArguments(storytellerCommand, projectPath, _arguments, settings));
 
             process.WaitForExit();
             return process.GetExitCode();

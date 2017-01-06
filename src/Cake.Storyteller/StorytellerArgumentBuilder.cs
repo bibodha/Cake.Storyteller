@@ -28,7 +28,10 @@ namespace Cake.Storyteller
             };
         }
 
-        public ProcessArgumentBuilder BuildArguments(ICakeArguments arguments, StorytellerSettings settings = null)
+        public ProcessArgumentBuilder BuildArguments(StorytellerCommand command, 
+                                                     string projectPath, 
+                                                     ICakeArguments arguments, 
+                                                     StorytellerSettings settings = null)
         {
             var dict = new Dictionary<string, string>();
 
@@ -67,16 +70,13 @@ namespace Cake.Storyteller
             }
 
             var builder = new ProcessArgumentBuilder();
+            builder.Append(command.ToString().ToLower());
+            builder.Append(projectPath);
             foreach (var pair in dict)
             {
-                builder.Append("--" + pair.Key + " " + pair.Value + " ");
+                builder.Append("--" + pair.Key + " " + pair.Value);
             }
             return builder;
-        }
-
-        public ProcessArgumentBuilder BuildArguments(StorytellerSettings settings)
-        {
-            return BuildArguments(null, settings);
         }
     }
 }

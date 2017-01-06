@@ -24,7 +24,7 @@ Task("Clean")
 
 Task("StOpen")
     .Does(() => {
-        StorytellerOpen("C:/Projects/application-manager/src/ApplicationManager.StoryTeller", new StorytellerSettings{
+        StorytellerOpen("src/ApplicationManager.StoryTeller.Integration", new StorytellerSettings{
             Timeout = 300,
             Profile = "Phantom"
         });
@@ -32,7 +32,7 @@ Task("StOpen")
 
 Task("StRun")
     .Does(() => {
-        StorytellerRun("C:/Projects/application-manager/src/ApplicationManager.StoryTeller", new StorytellerSettings{
+        StorytellerRun("src/ApplicationManager.StoryTeller.Integration", new StorytellerSettings{
             Timeout = 300,
             Profile = "Phantom",
             Retries = 1

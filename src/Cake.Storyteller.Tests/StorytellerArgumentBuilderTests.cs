@@ -20,8 +20,8 @@ namespace Cake.Storyteller.Tests
         [Fact]
         public void BuildsWithNoCustomArguments()
         {
-            var builder = _argBuilder.BuildArguments(_context.Arguments);
-            builder.ShouldBeEmpty();
+            var builder = _argBuilder.BuildArguments(StorytellerCommand.Open, "src/test", _context.Arguments);
+            builder.Render().ShouldBe("open src/test");
         }
 
         [Fact]
@@ -32,24 +32,20 @@ namespace Cake.Storyteller.Tests
             _context.Arguments.HasArgument("timeout").Returns(true);
             _context.Arguments.GetArgument("timeout").Returns("500");
 
-            var builder = _argBuilder.BuildArguments(_context.Arguments);
-            var list = builder.ToList();
-            list.First().Render().Trim().ShouldBe("--profile Chrome");
-            list.Last().Render().Trim().ShouldBe("--timeout 500");
+            var builder = _argBuilder.BuildArguments(StorytellerCommand.Open, "src/test", _context.Arguments);
+            builder.Render().ShouldBe("open src/test --profile Chrome --timeout 500");
         }
 
         [Fact]
         public void BuildsWithStorytellerSettings()
         {
-            var builder = _argBuilder.BuildArguments(new StorytellerSettings
+            var builder = _argBuilder.BuildArguments(StorytellerCommand.Open, "src/test", null, new StorytellerSettings
             {
                 Profile = "Chrome",
                 Timeout = 700
             });
 
-            var list = builder.ToList();
-            list.First().Render().Trim().ShouldBe("--profile Chrome");
-            list.Last().Render().Trim().ShouldBe("--timeout 700");
+            builder.Render().ShouldBe("open src/test --profile Chrome --timeout 700");
         }
 
         [Fact]
@@ -60,15 +56,13 @@ namespace Cake.Storyteller.Tests
             _context.Arguments.HasArgument("timeout").Returns(true);
             _context.Arguments.GetArgument("timeout").Returns("500");
 
-            var builder = _argBuilder.BuildArguments(_context.Arguments, new StorytellerSettings
+            var builder = _argBuilder.BuildArguments(StorytellerCommand.Open, "src/test", _context.Arguments, new StorytellerSettings
             {
                 Profile = "Phantom",
                 Timeout = 300
             });
 
-            var list = builder.ToList();
-            list.First().Render().Trim().ShouldBe("--profile Chrome");
-            list.Last().Render().Trim().ShouldBe("--timeout 500");
+            builder.Render().ShouldBe("open src/test --profile Chrome --timeout 500");
         }
 
         [Fact]
@@ -77,15 +71,13 @@ namespace Cake.Storyteller.Tests
             _context.Arguments.HasArgument("profile").Returns(true);
             _context.Arguments.GetArgument("profile").Returns("Chrome");
 
-            var builder = _argBuilder.BuildArguments(_context.Arguments, new StorytellerSettings
+            var builder = _argBuilder.BuildArguments(StorytellerCommand.Open, "src/test",_context.Arguments, new StorytellerSettings
             {
                 Profile = "Phantom",
                 Timeout = 300
             });
 
-            var list = builder.ToList();
-            list.First().Render().Trim().ShouldBe("--profile Chrome");
-            list.Last().Render().Trim().ShouldBe("--timeout 300");
+            builder.Render().ShouldBe("open src/test --profile Chrome --timeout 300");
         }
     }
 }
