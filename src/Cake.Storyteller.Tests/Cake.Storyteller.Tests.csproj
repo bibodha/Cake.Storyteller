@@ -30,8 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Cake.Core, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Cake.Core.0.17.0\lib\net45\Cake.Core.dll</HintPath>
+    <Reference Include="Cake.Core, Version=0.15.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cake.Core.0.15.2\lib\net45\Cake.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Cake.Testing, Version=0.15.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cake.Testing.0.15.2\lib\net45\Cake.Testing.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
@@ -70,7 +74,9 @@
   <ItemGroup>
     <Compile Include="StorytellerArgumentBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StorytellerFixture.cs" />
     <Compile Include="StorytellerRunnerTests.cs" />
+    <Compile Include="ToolFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

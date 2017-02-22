@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cake.Core;
 using Cake.Core.IO;
 
@@ -74,7 +75,14 @@ namespace Cake.Storyteller
             builder.Append(projectPath);
             foreach (var pair in dict)
             {
-                builder.Append("--" + pair.Key + " " + pair.Value);
+                if (pair.Value == "True" || string.IsNullOrEmpty(pair.Value))
+                {
+                    builder.Append("--" + pair.Key);
+                }
+                else
+                {
+                    builder.Append("--" + pair.Key + " " + pair.Value);
+                }
             }
             return builder;
         }

@@ -1,5 +1,6 @@
 ﻿using Cake.Core;
 using Cake.Core.IO;
+using Cake.Core.Tooling;
 using NSubstitute;
 using Shouldly;
 using Xunit;
@@ -8,29 +9,30 @@ namespace Cake.Storyteller.Tests
 {
     public class StorytellerRunnerTests
     {
-        private readonly ICakeContext _context;
-        private readonly StorytellerRunner _runner;
-
-        public StorytellerRunnerTests()
-        {
-            _context = Substitute.For<ICakeContext>();
-            _runner = new StorytellerRunner(_context);
-        }
-
         [Fact]
         public void ThrowsIfStExeIsNotFound()
         {
-            Should.Throw<CakeException>(() => _runner.RunCommand("src/test", new StorytellerSettings()));
+            var fixture = new StorytellerFixture();
+            fixture.GivenDefaultToolDoNotExist();
+            Should.Throw<CakeException>(() => fixture.Run());
         }
 
         [Fact]
         public void ThrowsExceptionWhenTestFails()
         {
-            Substitute.For<IProcess>().GetExitCode().Returns(1);
-            Should.Throw<StorytellerException>(() => _runner.RunCommand("src/test", new StorytellerSettings
-            {
-                ToolPath = "./tools/Storyteller/tools/ST.exe"
-            }));
+            var fixture = new StorytellerFixture();
+            fixture.GivenProcessExitsWithCode(1);
+            Should.Throw<StorytellerException>(() => fixture.Run());
+        }
+
+        [Fact]
+        public void FindsStRunner()
+        {
+            var fixture = new StorytellerFixture();
+            fixture.Run();
+            fixture.ProcessRunner.Received(1).Start(Arg.Is<FilePath>(
+                    fp => fp.FullPath == "/Working/tools/ST.exe"),
+                    Arg.Any<ProcessSettings>());
         }
     }
 }

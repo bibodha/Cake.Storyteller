@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Cake.Core;
+﻿using Cake.Core;
 using Shouldly;
 using Xunit;
 using NSubstitute;
@@ -78,6 +77,34 @@ namespace Cake.Storyteller.Tests
             });
 
             builder.Render().ShouldBe("open src/test --profile Chrome --timeout 300");
+        }
+
+        [Fact]
+        public void BuildsWithFlagFromArgumentList()
+        {
+            _context.Arguments.HasArgument("teamcity").Returns(true);
+
+            var builder = _argBuilder.BuildArguments(StorytellerCommand.Open, "src/test", _context.Arguments,
+                new StorytellerSettings
+                {
+                    Profile = "Chrome",
+                    Timeout = 300
+                });
+
+            builder.Render().ShouldBe("open src/test --profile Chrome --timeout 300 --teamcity");
+        }
+
+        [Fact]
+        public void BuildsWithFlagFromSettings()
+        {
+            var builder = _argBuilder.BuildArguments(StorytellerCommand.Open, "src/test", null, new StorytellerSettings
+            {
+                Profile = "Chrome",
+                Timeout = 300,
+                TeamCity = true
+            });
+
+            builder.Render().ShouldBe("open src/test --profile Chrome --timeout 300 --teamcity");
         }
     }
 }
