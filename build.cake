@@ -1,5 +1,4 @@
-#r "src/Cake.Storyteller/bin/Debug/Cake.Storyteller.dll"
-#tool "nuget:?package=storyteller"
+#tool "nuget:?package=xunit.runner.console"
 
 var target = Argument("Target", "Default");
 
@@ -22,21 +21,9 @@ Task("Clean")
         CreateDirectory("./src/build");
     });
 
-Task("StOpen")
+Task("Test")
     .Does(() => {
-        StorytellerOpen("src/Cake.StoryTeller.Integration", new StorytellerSettings{
-            Timeout = 300,
-            Profile = "Phantom"
-        });
-    });
-
-Task("StRun")
-    .Does(() => {
-        StorytellerRun("src/Cake.StoryTeller.Integration", new StorytellerSettings{
-            Timeout = 300,
-            Profile = "Phantom",
-            Retries = 1
-        });
+        XUnit2(GetFiles("./src/**/bin/Debug/*.Tests.dll"));
     });
 
 RunTarget(target);
