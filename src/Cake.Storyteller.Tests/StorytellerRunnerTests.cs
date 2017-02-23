@@ -1,6 +1,5 @@
 ﻿using Cake.Core;
 using Cake.Core.IO;
-using Cake.Core.Tooling;
 using NSubstitute;
 using Shouldly;
 using Xunit;

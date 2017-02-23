@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Cake.Storyteller</id>
+    <version>0.0.1</version>
+    <authors>Bibodha Neupane</authors>
+    <owners>Bibodha Neupane</owners>
+    <licenseUrl>https://raw.githubusercontent.com/bibodha/Cake.Storyteller/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/bibodha/Cake.Storyteller</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Storyteller alias for Cake</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright (c) Bibodha Neupane 2017</copyright>
+    <tags>Cake Storyteller</tags>
+    <dependencies>
+      <dependency id="Cake.Core" version="0.17.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="./Cake.Storyteller/bin/Release/Cake.Storyteller.dll" target="lib/net45" />
+    <file src="./Cake.Storyteller/bin/Release/Cake.Storyteller.xml" target="lib/net45" />
+  </files>
+</package>

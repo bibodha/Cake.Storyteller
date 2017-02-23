@@ -3,6 +3,9 @@ using StoryTeller.Model;
 
 namespace Cake.Storyteller
 {
+    /// <summary>
+    /// Settings used by <see cref="StorytellerRunner"/>. Definitions provided in Storyteller Documentation
+    /// </summary>
     public class StorytellerSettings : ToolSettings
     {
         [StorytellerFlag("results-path")]
